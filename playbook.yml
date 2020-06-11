@@ -9,7 +9,7 @@
     key_name: my_aws
     region: us-east-2
     image: ami-0735e22e032b35e38 # https://cloud-images.ubuntu.com/locator/ec2/
-    id: "Ec2App3"
+    id: "Ec2App0"
     sec_group: "{{ id }}-sec"
 
   tasks:
@@ -57,6 +57,10 @@
                 - 22
               cidr_ip: 0.0.0.0/0
               rule_desc: allow all on ssh port
+            - proto: all
+              from_port: 10050 # this value is ignored
+              to_port: 10050 # this value is ignored
+              cidr_ip: 0.0.0.0/0
         register: result_sec_group
 
       - name: Provision instance(s)
@@ -71,7 +75,7 @@
           region: "{{ region }}"
           wait: true
           count: 3
-          user_data: "{{ lookup('file', '/root/user_data.sh') }}"
+          user_data: "{{ lookup('file', 'user_data.sh') }}"
 
       tags: ['never', 'create_ec2']
 
