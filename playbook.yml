@@ -9,7 +9,7 @@
     key_name: my_aws
     region: us-east-2
     image: ami-0735e22e032b35e38 # https://cloud-images.ubuntu.com/locator/ec2/
-    id: "web-app"
+    id: "Ec2App3"
     sec_group: "{{ id }}-sec"
 
   tasks:
@@ -70,11 +70,8 @@
           instance_type: t2.micro
           region: "{{ region }}"
           wait: true
-          count: 1
-          # exact_count: 2
-          # count_tag:
-          #   Name: App
-          # instance_tags:
-          #   Name: App
+          count: 3
+          user_data: "{{ lookup('file', '/root/user_data.sh') }}"
 
       tags: ['never', 'create_ec2']
+
